@@ -1,14 +1,15 @@
-// # SimpleServer
-// A simple chat bot server
-
-const ACCESS_TOKEN = "EAAZAISQJluyQBO16FalqP7a3FffzU06WFHiheGd2sBwZAZBMyPzThPPbHHRgK3I0yEx9OUk66fNZB4ztkbbZAG2uexYV2udjEDhgn2YRkKTIUjF63iUPHc1vMfPpZAgGquwIcwcPb4ZAJvhzRGGXIVnHd6w9Y6VSAwDRDgNeZBh3qk4sZCEo38DeaECYFignl2ZBYh"
-
 var logger = require('morgan');
 var http = require('http');
 var bodyParser = require('body-parser');
 var express = require('express');
 var request = require('request');
+var dotenv = require('dotenv');
+var pg = require('pg');
 var router = express();
+
+dotenv.config();
+
+const ACCESS_TOKEN = "EAAZAISQJluyQBO16FalqP7a3FffzU06WFHiheGd2sBwZAZBMyPzThPPbHHRgK3I0yEx9OUk66fNZB4ztkbbZAG2uexYV2udjEDhgn2YRkKTIUjF63iUPHc1vMfPpZAgGquwIcwcPb4ZAJvhzRGGXIVnHd6w9Y6VSAwDRDgNeZBh3qk4sZCEo38DeaECYFignl2ZBYh"
 
 var app = express();
 app.use(logger('dev'));
@@ -16,8 +17,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
-var server = http.createServer(app);
 
+//dev
+var server = http.createServer(app);
 app.listen(process.env.PORT || 3000);
 
 app.get('/', (req, res) => {
@@ -34,23 +36,24 @@ app.get('/webhook', function(req, res) {
 // Đoạn code xử lý khi có người nhắn tin cho bot
 app.post('/webhook', function(req, res) {
   var entries = req.body.entry;
-  for (var entry of entries) {
-    var messaging = entry.messaging;
-    for (var message of messaging) {
-      var senderId = message.sender.id;
-      if (message.message) {
-        // Nếu người dùng gửi tin nhắn đến
-        if (message.message.text) {
-          var text = message.message.text;
-          if(text == 'hi' || text == "hello")
-          {
-            sendMessage(senderId, "Xuân Phú's bot: " + 'Xin Chào');
-          }
-          else{sendMessage(senderId, "Xuân Phú's Bot: " + "Xin lỗi, câu hỏi của bạn chưa có trong hệ thống, chúng tôi sẽ cập nhật sớm nhất.");}
-        }
-      }
-    }
-  }
+  sendMessage(senderId, req.body);
+//   for (var entry of entries) {
+//     var messaging = entry.messaging;
+//     for (var message of messaging) {
+//       var senderId = message.sender.id;
+//       if (message.message) {
+//         // Nếu người dùng gửi tin nhắn đến
+//         if (message.message.text) {
+//           var text = message.message.text;
+//           if(text == 'hi' || text == "hello")
+//           {
+//             sendMessage(senderId, "Xuân Phú's bot: " + 'Xin Chào');
+//           }
+//           else{sendMessage(senderId, "Xuân Phú's Bot: " + "Xin lỗi, câu hỏi của bạn chưa có trong hệ thống, chúng tôi sẽ cập nhật sớm nhất.");}
+//         }
+//       }
+//     }
+//   }
 
   res.status(200).send("OK");
 });
