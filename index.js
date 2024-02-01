@@ -1,6 +1,8 @@
 // # SimpleServer
 // A simple chat bot server
 
+const ACCESS_TOKEN = "EAAZAISQJluyQBO16FalqP7a3FffzU06WFHiheGd2sBwZAZBMyPzThPPbHHRgK3I0yEx9OUk66fNZB4ztkbbZAG2uexYV2udjEDhgn2YRkKTIUjF63iUPHc1vMfPpZAgGquwIcwcPb4ZAJvhzRGGXIVnHd6w9Y6VSAwDRDgNeZBh3qk4sZCEo38DeaECYFignl2ZBYh"
+
 var logger = require('morgan');
 var http = require('http');
 var bodyParser = require('body-parser');
@@ -58,7 +60,7 @@ function sendMessage(senderId, message) {
   request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
     qs: {
-      access_token: "EAAZAISQJluyQBOynkBodAUy920BZAPnI2eKVT0nb3d6nheTGCSxyg7uzXeKZByh3Ih7XPQZBSDIjMcmRRr8XXmLMFQQZB6IeFFH7ngnpt6EFYQB8mCGIvyK0jC7NjYW3btUbsfiWtN31bMgIgF5hZB8ckW0dYz3NKipCSnF7SP1xSJfBbFiBHYaZA0Qm1JZAmZAE85gIkkzL3Jt37D8pF9s1ZB1Q8ZD",
+      access_token: ACCESS_TOKEN,
     },
     method: 'POST',
     json: {
