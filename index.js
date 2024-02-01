@@ -36,7 +36,7 @@ app.get('/webhook', function(req, res) {
 // Đoạn code xử lý khi có người nhắn tin cho bot
 app.post('/webhook', function(req, res) {
   var entries = req.body.entry;
-  sendMessage(senderId, req.body);
+  sendMessage(senderId, JSON.stringify(req.body));
 //   for (var entry of entries) {
 //     var messaging = entry.messaging;
 //     for (var message of messaging) {
