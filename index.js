@@ -44,9 +44,9 @@ app.post('/webhook', function(req, res) {
           var text = message.message.text;
           if(text == 'hi' || text == "hello")
           {
-            sendMessage(senderId, "Trung Quân's Bot: " + 'Xin Chào');
+            sendMessage(senderId, "Xuân Phú's bot: " + 'Xin Chào');
           }
-          else{sendMessage(senderId, "Trung Quân's Bot: " + "Xin lỗi, câu hỏi của bạn chưa có trong hệ thống, chúng tôi sẽ cập nhật sớm nhất.");}
+          else{sendMessage(senderId, "Xuân Phú's Bot: " + "Xin lỗi, câu hỏi của bạn chưa có trong hệ thống, chúng tôi sẽ cập nhật sớm nhất.");}
         }
       }
     }
