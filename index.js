@@ -36,24 +36,25 @@ app.get('/webhook', function(req, res) {
 // Đoạn code xử lý khi có người nhắn tin cho bot
 app.post('/webhook', function(req, res) {
   var entries = req.body.entry;
-  sendMessage(senderId, JSON.stringify(req.body));
-//   for (var entry of entries) {
-//     var messaging = entry.messaging;
-//     for (var message of messaging) {
-//       var senderId = message.sender.id;
-//       if (message.message) {
-//         // Nếu người dùng gửi tin nhắn đến
-//         if (message.message.text) {
-//           var text = message.message.text;
-//           if(text == 'hi' || text == "hello")
-//           {
-//             sendMessage(senderId, "Xuân Phú's bot: " + 'Xin Chào');
-//           }
-//           else{sendMessage(senderId, "Xuân Phú's Bot: " + "Xin lỗi, câu hỏi của bạn chưa có trong hệ thống, chúng tôi sẽ cập nhật sớm nhất.");}
-//         }
-//       }
-//     }
-//   }
+  for (var entry of entries) {
+    var messaging = entry.messaging;
+    for (var message of messaging) {
+      var senderId = message.sender.id;
+      if (message.message) {
+        // Nếu người dùng gửi tin nhắn đến
+        if (message.message.text) {
+          var text = message.message.text;
+          if(text == 'hi' || text == "hello")
+          {
+            // sendMessage(senderId, "Xuân Phú's bot: " + 'Xin Chào');
+            sendMessage(senderId, JSON.stringify(req.body));
+
+          }
+          else{sendMessage(senderId, "Xuân Phú's Bot: " + "Xin lỗi, câu hỏi của bạn chưa có trong hệ thống, chúng tôi sẽ cập nhật sớm nhất.");}
+        }
+      }
+    }
+  }
 
   res.status(200).send("OK");
 });
