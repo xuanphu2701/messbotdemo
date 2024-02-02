@@ -6,10 +6,26 @@ var request = require('request');
 var dotenv = require('dotenv');
 var pg = require('pg');
 var router = express();
+const handleMessage = require('./handleMessage.js');
 
 dotenv.config();
 
 const ACCESS_TOKEN = "EAAZAISQJluyQBO16FalqP7a3FffzU06WFHiheGd2sBwZAZBMyPzThPPbHHRgK3I0yEx9OUk66fNZB4ztkbbZAG2uexYV2udjEDhgn2YRkKTIUjF63iUPHc1vMfPpZAgGquwIcwcPb4ZAJvhzRGGXIVnHd6w9Y6VSAwDRDgNeZBh3qk4sZCEo38DeaECYFignl2ZBYh"
+
+const config = {
+    user: process.env.PG_USER,
+    host: process.env.PG_HOST,
+    database: process.env.PG_DATABASE,
+    password: process.env.PG_PASSWORD,
+    port: process.env.PG_PORT
+};
+
+const client = new pg.Client(config);
+
+// Listen for the 'connect' event
+client.on('connect', () => {
+  console.log('Connected to PostgreSQL database');
+});
 
 var app = express();
 app.use(logger('dev'));
@@ -20,7 +36,9 @@ app.use(bodyParser.urlencoded({
 
 //dev
 var server = http.createServer(app);
-app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT || 3000, () => {
+    console.log("Server listening on port 2000");
+});
 
 app.get('/', (req, res) => {
   res.send("Server chạy ngon lành.");
@@ -44,13 +62,8 @@ app.post('/webhook', function(req, res) {
         // Nếu người dùng gửi tin nhắn đến
         if (message.message.text) {
           var text = message.message.text;
-          if(text == 'hi' || text == "hello")
-          {
-            // sendMessage(senderId, "Xuân Phú's bot: " + 'Xin Chào');
-            sendMessage(senderId, JSON.stringify(req.body));
-
-          }
-          else{sendMessage(senderId, "Xuân Phú's Bot: " + "Xin lỗi, câu hỏi của bạn chưa có trong hệ thống, chúng tôi sẽ cập nhật sớm nhất.");}
+          var resStr = handleMessage(text);
+          sendMessage(senderId, resStr);
         }
       }
     }
